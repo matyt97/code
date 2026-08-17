@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Codeta — Desarrollo Web y Marketing con IA para Pymes</title>
+<meta name="description" content="Sitios web y soluciones de marketing con inteligencia artificial para restaurantes, cafeterías y pymes de Santiago." />
+<style>
+  /* ============ TOKENS ============ */
+  :root{
+    --paper:#F7F5F8;
+    --paper-raised:#FFFFFF;
+    --ink:#1B1720;
+    --ink-soft:#514B5C;
+    --line:#E4DFEA;
+    --violet-600:#6D28D9;
+    --violet-500:#7C3AED;
+    --violet-100:#EDE6FB;
+    --coffee:#4A3222;
+    --accent-on-violet:#F7F5F8;
+    --shadow: 0 1px 2px rgba(27,23,32,.04), 0 8px 24px -12px rgba(27,23,32,.18);
+    --radius: 14px;
+    --serif: Georgia, "Iowan Old Style", "Palatino Linotype", ui-serif, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#161219;
+      --paper-raised:#1F1A24;
+      --ink:#F1EDF6;
+      --ink-soft:#B8AFC7;
+      --line:#332B3D;
+      --violet-600:#A78BFA;
+      --violet-500:#8B5CF6;
+      --violet-100:#2C2337;
+      --coffee:#C9A98A;
+      --accent-on-violet:#161219;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px -16px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#161219;
+    --paper-raised:#1F1A24;
+    --ink:#F1EDF6;
+    --ink-soft:#B8AFC7;
+    --line:#332B3D;
+    --violet-600:#A78BFA;
+    --violet-500:#8B5CF6;
+    --violet-100:#2C2337;
+    --coffee:#C9A98A;
+    --accent-on-violet:#161219;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px -16px rgba(0,0,0,.6);
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-font-smoothing:antialiased;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.55;
+  }
+  img,svg{max-width:100%;display:block;}
+  a{color:inherit;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  section{padding:96px 0;}
+  @media (max-width:720px){ section{padding:64px 0;} }
+
+  h1,h2,h3{font-family:var(--serif); font-weight:400; text-wrap:balance; margin:0;}
+  .eyebrow{
+    font-family:var(--mono); font-size:12.5px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--violet-600); margin:0 0 14px;
+  }
+  p{margin:0;}
+  .lede{ max-width:60ch; color:var(--ink-soft); font-size:18px; }
+
+  /* ============ NAV ============ */
+  header.site{
+    position:sticky; top:0; z-index:20;
+    background:color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; max-width:1120px; margin:0 auto; }
+  .brand{ display:flex; align-items:center; gap:10px; font-family:var(--serif); font-size:19px; }
+  .brand .mark{
+    width:30px;height:30px;border-radius:8px;
+    background:linear-gradient(155deg, var(--violet-500), var(--coffee));
+    display:flex;align-items:center;justify-content:center;
+    color:var(--accent-on-violet); font-family:var(--serif); font-size:16px;
+  }
+  nav.links{ display:flex; gap:28px; font-size:14.5px; }
+  nav.links a{ text-decoration:none; color:var(--ink-soft); }
+  nav.links a:hover{ color:var(--ink); }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:11px 20px; border-radius:999px; font-size:14.5px; font-weight:600;
+    text-decoration:none; border:1px solid transparent; cursor:pointer;
+    font-family:var(--sans);
+  }
+  .btn-primary{ background:var(--violet-600); color:#fff; }
+  .btn-primary:hover{ background:var(--violet-500); }
+  :root[data-theme="dark"] .btn-primary, @media (prefers-color-scheme:dark){ .btn-primary{color:var(--accent-on-violet);} }
+  .btn-ghost{ border-color:var(--line); color:var(--ink); }
+  .btn-ghost:hover{ border-color:var(--violet-600); }
+
+  /* ============ HERO ============ */
+  .hero{ padding:88px 0 40px; }
+  .hero-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:64px; align-items:center; }
+  @media (max-width:900px){ .hero-grid{ grid-template-columns:1fr; gap:48px; } }
+  .hero h1{ font-size:clamp(34px, 5vw, 54px); line-height:1.08; letter-spacing:-.01em; }
+  .hero h1 em{ font-style:normal; color:var(--violet-600); }
+  .hero .lede{ margin-top:20px; font-size:19px; }
+  .hero-cta{ display:flex; gap:14px; margin-top:32px; flex-wrap:wrap; }
+  .hero-stats{ display:flex; gap:32px; margin-top:48px; flex-wrap:wrap; }
+  .stat b{ display:block; font-family:var(--serif); font-size:28px; }
+  .stat span{ font-size:13px; color:var(--ink-soft); }
+
+  /* browser mockup */
+  .mock{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); overflow:hidden;
+  }
+  .mock-bar{ display:flex; align-items:center; gap:6px; padding:12px 14px; border-bottom:1px solid var(--line); }
+  .mock-bar i{ width:9px;height:9px;border-radius:50%; background:var(--line); }
+  .mock-url{ margin-left:8px; font-family:var(--mono); font-size:11.5px; color:var(--ink-soft); background:var(--paper); padding:5px 10px; border-radius:6px; flex:1; }
+  .mock-body{ padding:22px; display:flex; flex-direction:column; gap:14px; }
+  .mock-line{ height:10px; border-radius:5px; background:var(--line); }
+  .mock-hero-block{ height:64px; border-radius:10px; background:linear-gradient(135deg, var(--violet-100), var(--paper)); border:1px solid var(--line); display:flex; align-items:center; padding:0 16px; gap:10px;}
+  .mock-hero-block .dot{ width:34px;height:34px;border-radius:9px; background:var(--violet-500); flex-shrink:0; }
+  .mock-hero-block .lines{ flex:1; display:flex; flex-direction:column; gap:6px; }
+  .before-after{ display:flex; align-items:center; gap:10px; font-family:var(--mono); font-size:11.5px; color:var(--ink-soft); margin-top:14px; }
+  .before-after .tag{ padding:4px 9px; border-radius:6px; }
+  .tag.before{ background:var(--paper); border:1px dashed var(--line); }
+  .tag.after{ background:var(--violet-100); color:var(--violet-600); border:1px solid var(--violet-100); }
+
+  /* ============ SECTIONS ============ */
+  .section-head{ max-width:640px; margin-bottom:48px; }
+  .section-head h2{ font-size:clamp(26px,3.4vw,36px); margin-top:6px; }
+
+  .problem-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; }
+  @media (max-width:760px){ .problem-grid{ grid-template-columns:1fr; } }
+  .problem-cell{ background:var(--paper-raised); padding:32px 28px; }
+  .problem-cell b{ display:block; font-family:var(--serif); font-size:38px; color:var(--violet-600); }
+  .problem-cell p{ margin-top:10px; color:var(--ink-soft); font-size:14.5px; }
+
+  .services{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media (max-width:900px){ .services{ grid-template-columns:1fr; } }
+  .card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius);
+    padding:30px 26px; display:flex; flex-direction:column; gap:14px;
+  }
+  .card .num{ font-family:var(--mono); font-size:12px; color:var(--ink-soft); letter-spacing:.08em; }
+  .card h3{ font-size:21px; }
+  .card p{ color:var(--ink-soft); font-size:15px; }
+  .card .list{ margin-top:auto; padding-top:10px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:8px; font-size:13.5px; color:var(--ink-soft); }
+  .card .list div::before{ content:"— "; color:var(--violet-600); }
+
+  .process{ display:grid; grid-template-columns:repeat(4,1fr); gap:28px; }
+  @media (max-width:800px){ .process{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:520px){ .process{ grid-template-columns:1fr; } }
+  .step .step-n{ font-family:var(--serif); font-size:15px; color:var(--violet-600); border:1px solid var(--violet-600); width:34px;height:34px;border-radius:50%; display:flex;align-items:center;justify-content:center; margin-bottom:16px; }
+  .step h3{ font-size:17px; font-family:var(--sans); font-weight:600; }
+  .step p{ margin-top:8px; font-size:14px; color:var(--ink-soft); }
+
+  .pricing{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; align-items:stretch; }
+  @media (max-width:900px){ .pricing{ grid-template-columns:1fr; } }
+  .plan{ background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius); padding:30px 26px; display:flex; flex-direction:column; }
+  .plan.featured{ border-color:var(--violet-600); box-shadow:var(--shadow); position:relative; }
+  .plan.featured::before{
+    content:"Recomendado"; position:absolute; top:-12px; right:24px;
+    background:var(--violet-600); color:var(--accent-on-violet); font-size:11.5px; font-weight:700;
+    padding:4px 12px; border-radius:999px; letter-spacing:.03em;
+  }
+  .plan h3{ font-family:var(--sans); font-weight:600; font-size:16px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.04em; }
+  .plan .price{ font-family:var(--serif); font-size:34px; margin:12px 0 4px; }
+  .plan .price span{ font-size:14px; color:var(--ink-soft); font-family:var(--sans); }
+  .plan ul{ list-style:none; margin:22px 0 0; padding:0; display:flex; flex-direction:column; gap:11px; font-size:14px; color:var(--ink-soft); flex:1; }
+  .plan li::before{ content:"✓ "; color:var(--violet-600); font-weight:700; }
+  .plan .btn{ margin-top:24px; justify-content:center; }
+
+  .cta-band{
+    background:linear-gradient(155deg, var(--coffee), var(--violet-600));
+    border-radius:20px; padding:56px; color:var(--accent-on-violet);
+    display:flex; align-items:center; justify-content:space-between; gap:32px; flex-wrap:wrap;
+  }
+  .cta-band h2{ color:var(--accent-on-violet); font-size:clamp(24px,3vw,32px); max-width:26ch; }
+  .cta-band .btn-primary{ background:var(--accent-on-violet); color:var(--coffee); }
+  :root[data-theme="dark"] .cta-band .btn-primary{ color:var(--ink); }
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .cta-band .btn-primary{ color:var(--ink); } }
+
+  footer{ border-top:1px solid var(--line); padding:40px 0; margin-top:20px; }
+  .foot-row{ display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:13.5px; color:var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav">
+    <div class="brand"><span class="mark">Cd</span>Codeta</div>
+    <nav class="links">
+      <a href="#servicios">Servicios</a>
+      <a href="#proceso">Cómo trabajamos</a>
+      <a href="#precios">Precios</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="btn btn-primary" href="#contacto">Pedir propuesta</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Desarrollo web · Marketing con IA</p>
+      <h1>Tu negocio ya tiene clientes en Instagram. <em>Falta el sitio que los convierta.</em></h1>
+      <p class="lede">Diseñamos y desarrollamos páginas web para restaurantes, cafeterías y pymes de Santiago, y las acompañamos con estudios de mercado y herramientas de marketing con inteligencia artificial para que la web realmente traiga clientes nuevos.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#contacto">Agenda una llamada de 15 min</a>
+        <a class="btn btn-ghost" href="#servicios">Ver servicios</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><b>60+</b><span>negocios de Santiago analizados sin web propia</span></div>
+        <div class="stat"><b>5–20</b><span>días hábiles de entrega según proyecto</span></div>
+        <div class="stat"><b>100%</b><span>responsive, pensado para clientes que llegan desde el celular</span></div>
+      </div>
+    </div>
+    <div class="mock" aria-hidden="true">
+      <div class="mock-bar"><i></i><i></i><i></i><div class="mock-url">tunegocio.cl</div></div>
+      <div class="mock-body">
+        <div class="mock-hero-block">
+          <div class="dot"></div>
+          <div class="lines"><div class="mock-line" style="width:70%"></div><div class="mock-line" style="width:45%"></div></div>
+        </div>
+        <div class="mock-line" style="width:90%"></div>
+        <div class="mock-line" style="width:60%"></div>
+        <div class="before-after">
+          <span class="tag before">antes: solo bio de Instagram</span>
+          <span>→</span>
+          <span class="tag after">después: sitio propio + reservas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="problema">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Lo que encontramos</p>
+      <h2>La mayoría de los locales de barrio compite solo con redes sociales</h2>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-cell">
+        <b>~9 de 10</b>
+        <p>de los bares, cafés y restaurantes independientes que relevamos en Providencia, Ñuñoa, Santiago Centro, Las Condes y Vitacura no tienen sitio web propio — solo Instagram o Facebook.</p>
+      </div>
+      <div class="problem-cell">
+        <b>0 emails</b>
+        <p>directos encontrados en la mayoría de esos negocios: el único canal de contacto formal es un DM o un teléfono, lo que limita reservas, catering y ventas fuera del horario de atención.</p>
+      </div>
+      <div class="problem-cell">
+        <b>1er lugar</b>
+        <p>es lo que ocupa en Google Maps y búsquedas locales un negocio con web propia y SEO básico, frente a competidores que solo aparecen en redes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="servicios">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Servicios</p>
+      <h2>Tres formas de ayudarte a crecer</h2>
+    </div>
+    <div class="services">
+      <div class="card">
+        <span class="num">01 — WEB</span>
+        <h3>Sitios web para pymes</h3>
+        <p>Landing pages y sitios completos a medida, con foco en conversión: que quien te encuentre termine reservando, llamando o comprando.</p>
+        <div class="list">
+          <div>Diseño responsive mobile-first</div>
+          <div>Menú/catálogo fácil de leer y actualizar</div>
+          <div>WhatsApp, mapa y horarios integrados</div>
+        </div>
+      </div>
+      <div class="card">
+        <span class="num">02 — INTELIGENCIA</span>
+        <h3>Estudios de mercado con IA</h3>
+        <p>Analizamos tu zona y tu competencia: quién tiene web, quién no, dónde están las oportunidades y cómo posicionarte mejor.</p>
+        <div class="list">
+          <div>Mapeo de competencia local</div>
+          <div>Análisis de reseñas y reputación</div>
+          <div>Reporte claro, sin jerga técnica</div>
+        </div>
+      </div>
+      <div class="card">
+        <span class="num">03 — MARKETING</span>
+        <h3>Marketing con IA</h3>
+        <p>Herramientas prácticas de inteligencia artificial para que tu negocio se mantenga activo sin que tengas que dedicarle horas cada semana.</p>
+        <div class="list">
+          <div>Chatbot de atención al cliente</div>
+          <div>Contenido inicial para redes sociales</div>
+          <div>Respuestas automáticas a consultas frecuentes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proceso">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Cómo trabajamos</p>
+      <h2>Cuatro pasos, sin sorpresas</h2>
+    </div>
+    <div class="process">
+      <div class="step"><div class="step-n">1</div><h3>Diagnóstico</h3><p>Conversamos sobre tu negocio, revisamos qué tienes hoy (redes, reseñas) y definimos el alcance.</p></div>
+      <div class="step"><div class="step-n">2</div><h3>Diseño</h3><p>Propuesta visual acorde a tu marca y tu público, con una ronda de ajustes antes de programar.</p></div>
+      <div class="step"><div class="step-n">3</div><h3>Desarrollo</h3><p>Construcción del sitio, contenido, integración de WhatsApp/mapa y pruebas en distintos dispositivos.</p></div>
+      <div class="step"><div class="step-n">4</div><h3>Lanzamiento</h3><p>Publicación, configuración de dominio/hosting y acompañamiento en las primeras semanas.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="precios">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Precios</p>
+      <h2>Paquetes pensados para pymes, en pesos chilenos</h2>
+    </div>
+    <div class="pricing">
+      <div class="plan">
+        <h3>Landing Esencial</h3>
+        <div class="price">$180.000 <span>CLP desde</span></div>
+        <ul>
+          <li>1 página (inicio, servicios/menú, contacto)</li>
+          <li>Diseño responsive</li>
+          <li>WhatsApp + Google Maps</li>
+          <li>SEO local básico</li>
+          <li>Entrega en 5–7 días hábiles</li>
+        </ul>
+        <a class="btn btn-ghost" href="#contacto">Elegir este plan</a>
+      </div>
+      <div class="plan featured">
+        <h3>Sitio Completo</h3>
+        <div class="price">$420.000 <span>CLP desde</span></div>
+        <ul>
+          <li>Hasta 5 páginas</li>
+          <li>Formulario de contacto funcional</li>
+          <li>Integración con redes sociales</li>
+          <li>SEO + Google My Business optimizado</li>
+          <li>Entrega en 10–15 días hábiles</li>
+        </ul>
+        <a class="btn btn-primary" href="#contacto">Elegir este plan</a>
+      </div>
+      <div class="plan">
+        <h3>Web + Paquete IA</h3>
+        <div class="price">$650.000 <span>CLP desde</span></div>
+        <ul>
+          <li>Todo lo del Sitio Completo</li>
+          <li>Estudio de mercado/competencia con IA</li>
+          <li>Chatbot básico de atención</li>
+          <li>10 piezas de contenido con IA para el lanzamiento</li>
+          <li>Entrega en 15–20 días hábiles</li>
+        </ul>
+        <a class="btn btn-ghost" href="#contacto">Elegir este plan</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="cta-band">
+      <h2>¿Tu negocio todavía vive solo en Instagram?</h2>
+      <a class="btn btn-primary" href="mailto:hola@codeta.cl?subject=Quiero%20mi%20sitio%20web" id="contacto">Escríbenos: hola@codeta.cl</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>© 2026 Codeta — Desarrollo web y marketing con IA, Santiago de Chile.</span>
+    <span>Codeta · hola@codeta.cl</span>
+  </div>
+</footer>
+
+</body>
+</html>
